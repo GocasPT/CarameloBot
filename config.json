@@ -1,5 +1,9 @@
 {
     "clientId": "1010331259584643093",
 	"guildId": "729832535479025795",
-    "token": "MTAxMDMzMTI1OTU4NDY0MzA5Mw.GpccQU.hIFsAOoZq7UFbuNK-LTQkuhPDGf4zwdKGhqjtw"
+    "token": "MTAxMDMzMTI1OTU4NDY0MzA5Mw.GX1FTE.mPRNibdHqTDSiNFx0eT14yCGIA7uu8l8HrfsiU",
+    "dir": {
+        "img": "./src/img/",
+        "video": "./src/video/"
+    }
 }

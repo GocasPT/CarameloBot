@@ -1,6 +1,6 @@
 {
   "name": "caramelo",
-  "version": "1.0.0",
+  "version": "0.2.0",
   "description": "Bot para enviar fotos do caramelo e armazenar para mostrar mais tarde",
   "main": "bot.js",
   "scripts": {
@@ -11,6 +11,7 @@
   "dependencies": {
     "@discordjs/rest": "^1.1.0",
     "discord.js": "^14.3.0",
+    "node-fetch": "^2.6.9",
     "nodemon": "^2.0.19"
   }
 }
