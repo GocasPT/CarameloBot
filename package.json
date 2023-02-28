@@ -1,10 +1,11 @@
 {
   "name": "caramelo",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Bot para enviar fotos do caramelo e armazenar para mostrar mais tarde",
   "main": "bot.js",
   "scripts": {
-    "start": "nodemon ."
+    "start": "nodemon .",
+    "deploy": "node deploy-commands.js"
   },
   "author": "Camacho",
   "license": "ISC",
