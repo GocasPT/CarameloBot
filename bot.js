@@ -6,7 +6,7 @@ const crypto = require('crypto');
 const { promisify } = require('util');
 const readdir = promisify(fs.readdir);
 const unlink = promisify(fs.unlink);
-const { token, dir } = require('./config.json');
+const { token, prefix, dir } = require('./config.json');
 
 async function download(url, folder, type) {
     const response = await fetch(url);
@@ -65,15 +65,22 @@ const client = new Client({
 });
 
 client.commands = new Collection();
+client.slash = new Collection();
 
 const commandsPath = path.join(__dirname, 'src/commands');
 const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
 
 for (const file of commandFiles) {
+    const filePath = path.join(commandsPath, file);
+	const command = require(filePath);
+    client.commands.set(command.data.name, command);
+}
+
+for (const file of commandFiles) {
 	const filePath = path.join(commandsPath, file);
 	const command = require(filePath);
 	if ('data' in command && 'execute' in command) {
-		client.commands.set(command.data.name, command);
+		client.slash.set(command.data.name, command);
 	} else {
 		console.log(`[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`);
 	}
@@ -87,7 +94,7 @@ client.once('ready', () => {
 client.on(Events.InteractionCreate, async interaction => {
 	if (!interaction.isChatInputCommand()) return;
 
-	const command = interaction.client.commands.get(interaction.commandName);
+	const command = interaction.client.slash.get(interaction.commandName);
 
 	if (!command) {
 		console.error(`No command matching ${interaction.commandName} was found.`);
@@ -124,6 +131,25 @@ client.on(Events.MessageCreate, async(message) => {
 		} else {
 			message.channel.send('Quero uma imagem, não quero falar contigo');
 		}  
+    } else {
+        if (!message.content.startsWith(prefix)) return;
+        
+        const args = message.content.slice(prefix.length).trim().split(/ +/);
+        const commandName = args.shift().toLowerCase();
+
+        const command = client.commands.get(commandName) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
+
+        if (!command) {
+            message.channel.send(`Sorry, I don't recognize that command. Type ${prefix}help for a list of commands.`);
+            return;
+        }
+
+        try {
+            command.execute(message, args);
+        } catch (error) {
+            console.error(error);
+            message.reply('There was an error executing that command.');
+        }
     }
 });
 

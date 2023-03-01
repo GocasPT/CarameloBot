@@ -1,6 +1,6 @@
 {
   "name": "caramelo",
-  "version": "0.3.0",
+  "version": "1.0.0",
   "description": "Bot para enviar fotos do caramelo e armazenar para mostrar mais tarde",
   "main": "bot.js",
   "scripts": {

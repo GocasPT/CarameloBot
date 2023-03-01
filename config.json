@@ -1,6 +1,7 @@
 {
     "clientId": "1010331259584643093",
     "token": "token",
+    "prefix": "&",
     "dir": {
         "img": "./src/img/",
         "video": "./src/video/"
